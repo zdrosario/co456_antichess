@@ -53,10 +53,17 @@ class AntiBoard:
 		return self.board.turn
 
 	# AntiBoard -> bool
-	def is_game_over(self):
-		outcome = self.board.outcome(claim_draw = False)
-		return outcome != None
+	def is_check(self):
+		return self.board.is_check()
+
+	# AntiBoard -> bool
+	def is_game_over(self, claim_draw = False):
+		return self.board.is_game_over(claim_draw = claim_draw)
 
 	# AntiBoard -> bool -> Outcome
 	def outcome(self, claim_draw = False):
 		return self.board.outcome(claim_draw = claim_draw)
+
+	# AntiBoard -> PieceType -> Color -> int
+	def pieces_count(self, piece_type, side):
+		return len(self.board.pieces(piece_type, side))
