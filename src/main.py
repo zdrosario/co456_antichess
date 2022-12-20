@@ -2,7 +2,7 @@ import chess
 import sys
 
 from antichess import AntiBoard
-from pickmove import pick_move
+from pickmove import MovePicker
 
 def usage(prog):
 	print(f"Usage: {prog} side", file=sys.stderr)
@@ -18,16 +18,27 @@ def main(argc, argv):
 	side = chess.WHITE if side_str == "white" else chess.BLACK
 
 	board = AntiBoard()
+	move_picker = MovePicker()
 
 	while not board.is_game_over():
 		if board.turn == side:
-			move = pick_move(board)
-			board.push(move)
-			print(move)
+			if not move_picker.initialized:
+				move_picker.init_with_board(board)
+
+			uci = move_picker.pick_move()
+
+			board.push_uci(uci)
+			move_picker.step_down(uci)
+
+			print(uci)
 		else:
 			uci = input()
+
 			board.push_uci(uci)
-			# TODO: exception handling
+			if move_picker.initialized:
+				move_picker.step_down(uci)
+				move_picker.generate_levels(board)
+			# TODO: exception handling?
 
 if __name__ == "__main__":
 	main(len(sys.argv), sys.argv)

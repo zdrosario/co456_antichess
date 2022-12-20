@@ -3,10 +3,8 @@ import chess
 MAX_SIDE_VALUE = 9 * 9 + 4 * 3 + 2 * 5
 
 WIN_VALUE = 1
-CHECKED_VALUE = 2
-DRAW_VALUE = 3 + MAX_SIDE_VALUE
-GIVE_CHECK_VALUE = DRAW_VALUE + MAX_SIDE_VALUE + 1
-LOSE_VALUE = GIVE_CHECK_VALUE + 1
+DRAW_VALUE = 2 + MAX_SIDE_VALUE
+LOSE_VALUE = DRAW_VALUE + MAX_SIDE_VALUE + 1
 
 BELOW_VAL_RANGE = 0
 ABOVE_VAL_RANGE = LOSE_VALUE + 1
@@ -18,7 +16,7 @@ def evaluate(board, side):
 	# CASE: Game is over
 	outcome = board.outcome()
 	if outcome is not None:
-		_, winner = outcome
+		winner = outcome.winner
 
 		if winner == None:
 			return DRAW_VALUE
@@ -27,14 +25,7 @@ def evaluate(board, side):
 		else:
 			return LOSE_VALUE
 
-	# CASE: Check
-	if board.is_check():
-		if board.turn  == side:
-			return CHECKED_VALUE
-		else:
-			return GIVE_CHECK_VALUE
-
-	# CASE: Other
+	# CASE: Heuristic
 	piece_values = {
 		chess.PAWN: 1,
 		chess.KNIGHT: 3,

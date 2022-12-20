@@ -39,13 +39,17 @@ class AntiBoard:
 		if self.is_legal(move):
 			self.board.push(move)
 			return move
-		print("This is illegal bestie")
+		print(f"Move {move.uci()} is illegal bestie")
 		# TODO: exception
 
 	# AntiBoard -> str -> Move
 	def push_uci(self, uci):
 		move = self.board.parse_uci(uci)
 		self.push(move)
+
+	# AntiBoard -> Move
+	def pop(self):
+		return self.board.pop()
 
 	# Color
 	@property
