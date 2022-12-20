@@ -28,17 +28,20 @@ def main(argc, argv):
 			uci = move_picker.pick_move()
 
 			board.push_uci(uci)
-			move_picker.step_down(uci)
+			move_picker.step_down(board, uci)
 
 			print(uci)
 		else:
 			uci = input()
 
-			board.push_uci(uci)
-			if move_picker.initialized:
-				move_picker.step_down(uci)
-				move_picker.generate_levels(board)
-			# TODO: exception handling?
+			try:
+				board.push_uci(uci)
+			except Exception as e:
+				print(f"Exception occured: {e}", file=sys.stderr)
 
+			if move_picker.initialized:
+				move_picker.step_down(board, uci)
+				move_picker.generate_levels(board)
+		
 if __name__ == "__main__":
 	main(len(sys.argv), sys.argv)

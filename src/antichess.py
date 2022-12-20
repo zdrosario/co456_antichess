@@ -39,14 +39,13 @@ class AntiBoard:
 		if self.is_legal(move):
 			self.board.push(move)
 			return move
-		print(f"Move {move.uci()} is illegal bestie")
-		# TODO: exception
+		raise ValueError(f"no matching legal move for {move.uci()}")
 
 	# AntiBoard -> str -> Move
 	def push_uci(self, uci):
 		move = self.board.parse_uci(uci)
 		self.push(move)
-
+	
 	# AntiBoard -> Move
 	def pop(self):
 		return self.board.pop()
@@ -61,11 +60,11 @@ class AntiBoard:
 		return self.board.is_check()
 
 	# AntiBoard -> bool
-	def is_game_over(self, claim_draw = False):
+	def is_game_over(self, claim_draw = True):
 		return self.board.is_game_over(claim_draw = claim_draw)
 
 	# AntiBoard -> bool -> Outcome
-	def outcome(self, claim_draw = False):
+	def outcome(self, claim_draw = True):
 		return self.board.outcome(claim_draw = claim_draw)
 
 	# AntiBoard -> PieceType -> Color -> int
