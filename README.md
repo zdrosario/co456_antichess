@@ -32,13 +32,15 @@ project's root directory:
 ./antichess.sh white
 ```
 
+The script can be called from other directories as well.
+
 If you get a `Permission denied` error, add permissions to execute the file then
 try again:
 ```
 chmod u+x ./antichess.sh
 ```
 
-The program can also be ran with python3 directly. E.g.:
+The program can also be ran with python3 directly. E.g., from the project's root directory:
 
 ```
 python3 ./src/main.py white
